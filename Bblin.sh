@@ -34,8 +34,6 @@ editar_archivo() {
 
     # Verificar si el archivo existe
     if [[ -f "$archivo" ]]; then
-        echo "Editando archivo: $archivo"
-        echo "Presiona Ctrl + D para guardar y salir"
 
         # Crear un archivo temporal para la edición
         tmpfile=$(mktemp)
