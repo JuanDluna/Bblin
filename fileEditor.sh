@@ -3,22 +3,10 @@ source simple_curses.sh
 
 main(){
     # create a window
-    window "Example" "blue" "50%"
-        append "Hello world"
-        addsep
-        append "The date command"
-        append_command "date"
+    window "Editor de texto" "blue" "100%"
+        append_command "less $1"
     endwin
 
-    # move on the next column
-    col_right
-
-    # and create another window
-    window "Example 2" "red" "50%"
-        append "Hello world"
-        addsep
-        append "The date command"
-        append_command "date"
-    endwin
 }
-main_loop
+
+main_loop $1
