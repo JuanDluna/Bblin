@@ -2,29 +2,29 @@
 
 # Función para mostrar el "File chooser"
 mostrar_file_chooser() {
-    echo "Por favor, ingresa la ruta del archivo que deseas editar:"
-    read -e archivo
+    archivo=$(dialog --stdout --title "Por favor, selecciona el archivo que deseas editar" --fselect $HOME/ 14 48)
 
     # Verificar si el archivo existe
     if test -f "$archivo"; then
-        echo "Archivo encontrado: $archivo"
+        dialog --title "Archivo encontrado" --msgbox "Archivo encontrado: $archivo" 6 44
     else
-        echo "El archivo no existe."
+        dialog --title "Error" --msgbox "El archivo no existe." 6 44
         exit 1
     fi
 }
 
 # Función para editar el archivo
 editar_archivo() {
-    ./fileEditor.sh "$archivo"
     # Lógica de edición del archivo
+
+    ./fileEditor.sh "$archivo"
 }
 
 # Función principal
 main() {
     # Verificar el número de parámetros
     if [[ $# -gt 1 ]]; then
-        echo "Error: Demasiados parámetros. Se espera solo un archivo como parámetro."
+        dialog --title "Error" --msgbox "Error: Demasiados parámetros. Se espera solo un archivo como parámetro." 6 44
         exit 1
     fi
 
@@ -33,9 +33,9 @@ main() {
         archivo="$1"
         # Verificar si el archivo existe
         if test -f "$archivo"; then
-            echo "Archivo encontrado: $archivo"
+            dialog --title "Archivo encontrado" --msgbox "Archivo encontrado: $archivo" 6 44
         else
-            echo "El archivo no existe."
+            dialog --title "Error" --msgbox "El archivo no existe." 6 44
             exit 1
         fi
     else
@@ -43,12 +43,13 @@ main() {
     fi
 
     editar_archivo
+
     # Resto de la lógica de tu programa
 }
 
 # Validar el número de parámetros antes de llamar a main
 if [[ $# -gt 1 ]]; then
-    echo "Error: Demasiados parámetros. Se espera solo un archivo como parámetro."
+    dialog --title "Error" --msgbox "Error: Demasiados parámetros. Se espera solo un archivo como parámetro." 6 44
     exit 1
 fi
 
