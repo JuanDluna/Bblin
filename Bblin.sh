@@ -28,11 +28,12 @@ buscar() {
     # Contar el número de veces que la cadena se encuentra en el archivo
     num_ocurrencias=$(grep -o "$cadena" "$archivo" | wc -l)
 
-    dialog --msgbox "Se encontró la cadena '$cadena' $num_ocurrencias veces en el archivo." 0 0
+    dialog --msgbox "Se encontró la cadena '$cadena' $num_ocurrencias veces en el archivo.\n Para salir de la siguiente ventana, presione Q" 0 0
 
     # Mostrar el contenido del archivo con la cadena buscada resaltada
     grep --color=always -C 9999999 "$cadena" "$archivo" | less -R
 }
+
 
 # Función para buscar y reemplazar una cadena en el archivo
 buscar_y_reemplazar() {
