@@ -141,6 +141,7 @@ editar_archivo() {
             guardar
             break
         elif [[ $exit_status -eq 3 ]]; then
+            dialog --title "Información" --msgbox "Los cambios realizados en la caja de edición no se guardarán." 0 0
             opcion=$(dialog --stdout --title "Opciones" --menu "Selecciona una opción:" 0 0 0 \
                 1 "Buscar" \
                 2 "Buscar y reemplazar" \
