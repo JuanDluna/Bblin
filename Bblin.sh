@@ -93,6 +93,40 @@ pegar_linea() {
     sed -i "${linea}i${linea_copiada}" "$archivo"
 }
 
+# Función para mostrar un menú de opciones después de hacer clic en "Aceptar"
+# Función para mostrar un menú de opciones después de hacer clic en "Aceptar"
+guardar() {
+    opcion=$(dialog --stdout --title "Guardar" --menu "Selecciona una opción:" 0 0 0 \
+        1 "Guardar" \
+        2 "Guardar como")
+    case $opcion in
+        1)
+            # Guardar el contenido actualizado en el archivo original
+            echo "$nuevo_contenido" > "$archivo"
+            ;;
+        2)
+            while true; do
+                # Pedir al usuario que seleccione la ruta y el nombre del nuevo archivo
+                nuevo_archivo=$(dialog --stdout --title "Guardar como" --fselect $HOME/ 14 48)
+                # Verificar si el archivo ya existe
+                if [ -e "$nuevo_archivo" ]; then
+                    # Preguntar al usuario si desea sobrescribir el archivo
+                    if dialog --stdout --title "Sobrescribir archivo" --yesno "El archivo ya existe. ¿Deseas sobrescribirlo?" 0 0; then
+                        # Sobrescribir el archivo
+                        echo "$nuevo_contenido" > "$nuevo_archivo"
+                        break
+                    fi
+                else
+                    # Guardar el contenido actualizado en el nuevo archivo
+                    echo "$nuevo_contenido" > "$nuevo_archivo"
+                    break
+                fi
+            done
+            ;;
+    esac
+}
+
+
 # Función para editar el archivo
 editar_archivo() {
     # Lógica de edición del archivo
@@ -101,15 +135,12 @@ editar_archivo() {
         tmpfile=$(mktemp)
         echo "$contenido" > "$tmpfile"
         nuevo_contenido=$(dialog --stdout --extra-button --extra-label "Opciones" --title "Editando $archivo" --editbox $tmpfile 0 0)
-        echo "$nuevo_contenido"
-        sleep 3
         exit_status=$?
         rm $tmpfile
         if [[ $exit_status -eq 0 ]]; then
-            $nuevo_contenido > $archivo
+            guardar
             break
         elif [[ $exit_status -eq 3 ]]; then
-            echo "$nuevo_contenido" > "$archivo"
             opcion=$(dialog --stdout --title "Opciones" --menu "Selecciona una opción:" 0 0 0 \
                 1 "Buscar" \
                 2 "Buscar y reemplazar" \
@@ -138,7 +169,6 @@ editar_archivo() {
         fi
     done
 }
-
 
 # Función principal
 main() {
