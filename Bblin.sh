@@ -16,7 +16,6 @@ mostrar_file_chooser() {
 # Función para editar el archivo
 editar_archivo() {
     # Lógica de edición del archivo
-    echo $archivo
     ./fileEditor.sh "$archivo"
 }
 
