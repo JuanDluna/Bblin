@@ -55,3 +55,4 @@ fi
 
 # Llamada a la función principal
 main "$@"
+clear
