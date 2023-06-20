@@ -46,6 +46,9 @@ buscar_y_reemplazar() {
 
 # Función para copiar una línea del archivo
 copiar_linea() {
+    # Mostrar un mensaje al usuario pidiéndole que recuerde el número de línea a copiar
+    dialog --msgbox "Recuerda el número de línea que deseas copiar." 0 0
+
     # Mostrar el contenido del archivo con un índice al lado de cada línea
     tmpfile=$(mktemp)
     nl -ba -s ": " "$archivo" > $tmpfile
@@ -59,6 +62,9 @@ copiar_linea() {
     fi
 
     linea_copiada=$(sed "${linea}q;d" "$archivo")
+
+    # Mostrar un mensaje al usuario indicándole la línea que eligió
+    dialog --msgbox "Elegiste copiar la línea $linea: '$linea_copiada'" 0 0
 }
 
 # Función para pegar la línea copiada en el archivo
